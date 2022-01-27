@@ -1,0 +1,33 @@
+import sys, pytest
+sys.path.append('../')
+
+from src.closed_interval import ClosedInterval
+
+@pytest.fixture
+def closed_interval():
+    closed_interval = ClosedInterval(lower=1, upper=3)
+    return closed_interval
+
+def test_init_lower(closed_interval):
+    lower = closed_interval.lower
+    assert 1 == lower
+    
+def test_init_upper(closed_interval):
+    upper = closed_interval.upper
+    assert 3 == upper
+    
+def test_get_range_string(closed_interval):
+    assert "[1,3]" == closed_interval.get_range_string()
+
+def test_init_condition():
+    # 文字列や実数などを引数に取ると、動いてしまう
+    with pytest.raises(ValueError):
+        ClosedInterval(lower=3, upper=1)
+
+def test_is_include(closed_interval):
+    # 整数以外を渡すとforのrangeが不適なのでエラーが出る
+    assert 1 in closed_interval.get_range_list()
+
+def test_is_equivalent():
+    closed_interval = ClosedInterval(lower=1, upper=3)
+    assert [1,2,3] == closed_interval.get_range_list()
