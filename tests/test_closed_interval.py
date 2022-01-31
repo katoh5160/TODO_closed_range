@@ -25,9 +25,16 @@ def test_init_condition():
         ClosedInterval(lower=3, upper=1)
 
 def test_is_include(closed_interval):
-    # 整数以外を渡すとforのrangeが不適なのでエラーが出る
-    assert 1 in closed_interval.get_range_list()
+    assert closed_interval.is_include(num=1) == True
 
-def test_is_equivalent():
-    closed_interval = ClosedInterval(lower=1, upper=3)
-    assert [1,2,3] == closed_interval.get_range_list()
+def test_is_equivalent(closed_interval):
+    assert closed_interval.is_equivalent([1,2,3]) == True
+
+def test_is_subset(closed_interval):
+    assert closed_interval.is_inclusiveness([1,2]) == True
+    
+def test_is_lower_include(closed_interval):
+    assert closed_interval.is_inclusiveness([0,2]) == False
+
+def test_is_upper_include(closed_interval):
+    assert closed_interval.is_inclusiveness([2,5]) == False
